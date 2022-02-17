@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
         }else{
 
             loadingBar.setTitle("Creating New Account");
-            loadingBar.setMessage("Please Wait While we are Creating Your New Account");
+            loadingBar.setMessage("Please Wait While we are Creating Your New Account...");
             loadingBar.show();
             loadingBar.setCanceledOnTouchOutside(true);
 

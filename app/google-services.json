@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "818852140189",
+    "project_id": "biztrends-53227",
+    "storage_bucket": "biztrends-53227.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818852140189:android:9f4944d923a5093b0ff074",
+        "android_client_info": {
+          "package_name": "com.albert.biztrends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818852140189-i4u88b0nmil20df1mnfirq59hphc08fu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo7CMv2fGH-JxE6ZKKNo1fY9j1-myuCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818852140189-i4u88b0nmil20df1mnfirq59hphc08fu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
