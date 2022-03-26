@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class ClickPostActivity extends AppCompatActivity {
-
+//
     private ImageView postImage;
     private TextView PostDescription;
     private Button updatePostbtn, deletePostbtn;
