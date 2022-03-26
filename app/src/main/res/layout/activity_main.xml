@@ -5,6 +5,7 @@
     android:id="@+id/drawable_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -36,9 +37,17 @@
             android:scaleType="centerCrop"
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="12dp"
-            android:background="@color/design_default_color_primary_dark"
+            android:background="@color/purple_500"
             android:baselineAlignBottom="false"
             android:focusableInTouchMode="false"/>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_bottom_navigation"
+            app:itemTextColor="@drawable/selector"
+            app:itemIconTint="@drawable/selector"
+            app:menu="@menu/menu_navigation"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -50,5 +59,6 @@
         app:menu="@menu/navigation_menu">
 
     </com.google.android.material.navigation.NavigationView>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

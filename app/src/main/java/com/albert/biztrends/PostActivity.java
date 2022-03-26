@@ -69,7 +69,7 @@ public class PostActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Update Post");
+        getSupportActionBar().setTitle("Update Trend");
 
         SelectPostImage = (ImageButton) findViewById(R.id.select_post_image);
         UpdatePostButton = (Button) findViewById(R.id.update_post_button);
@@ -128,7 +128,7 @@ public class PostActivity extends AppCompatActivity {
         else
         {
             loadingBar.setTitle("Add New Post");
-            loadingBar.setMessage("Please wait, while we are updating your new post...");
+            loadingBar.setMessage("Please wait, while we are updating your new trend...");
             loadingBar.show();
             loadingBar.setCanceledOnTouchOutside(true);
 
@@ -160,7 +160,7 @@ public class PostActivity extends AppCompatActivity {
                                 final String downloadUrl = uri.toString();
                                 Toast.makeText(PostActivity.this, "image uploaded successfully to Storage...", Toast.LENGTH_SHORT).show();
 
-                                SavingPostInformationToDatabase();
+                                SavingPostInformationToDatabase(downloadUrl);
                             }
                         });
 
@@ -186,7 +186,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });*/
     }
-    private void SavingPostInformationToDatabase()
+    private void SavingPostInformationToDatabase(String downloadUrl)
     {
         UsersRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
             @Override
@@ -195,7 +195,7 @@ public class PostActivity extends AppCompatActivity {
                 if(dataSnapshot.exists())
                 {
                     String userFullName = dataSnapshot.child("fullname").getValue().toString();
-                    String userProfileImage = dataSnapshot.child("profileimage").getValue().toString();
+                    String userProfileImage = dataSnapshot.child("img").getValue().toString();
 
                     HashMap postsMap = new HashMap();
                     postsMap.put("uid", current_user_id);

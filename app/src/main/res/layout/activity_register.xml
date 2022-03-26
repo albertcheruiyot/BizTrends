@@ -13,7 +13,7 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@mipmap/biztrends_app_icon" />
 
     <EditText
         android:id="@+id/register_email"

@@ -9,12 +9,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ehsanmashhadi.library.model.Country;
+import com.ehsanmashhadi.library.view.CountryPicker;
+import com.ehsanmashhadi.library.view.RecyclerViewAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +41,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetupActivity extends AppCompatActivity
 {
-    private EditText UserName, FullName, CountryName;
+    private EditText UserName, FullName;
+    private TextView CountryName;
     private Button SaveInformationbuttion;
     private CircleImageView ProfileImage;
     private ProgressDialog loadingBar;
@@ -44,6 +50,8 @@ public class SetupActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef;
     private StorageReference UserProfileImageRef;
+
+    CountryPicker countryPicker;
 
     String currentUserID;
     final static int Gallery_Pick = 1;
@@ -63,19 +71,26 @@ public class SetupActivity extends AppCompatActivity
 
         UserName = (EditText) findViewById(R.id.setup_user_name);
         FullName = (EditText) findViewById(R.id.setup_full_name);
-        CountryName = (EditText) findViewById(R.id.setup_country);
+        CountryName = findViewById(R.id.text_selected_country);
         SaveInformationbuttion = (Button) findViewById(R.id.setup_information_button);
         ProfileImage = (CircleImageView) findViewById(R.id.setup_profile_image);
         loadingBar = new ProgressDialog(this);
 
+        Button button = findViewById(R.id.button_display);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                display();
+            }
+        });
 
 
         SaveInformationbuttion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                SaveAccountSetupInformation();
+                addData();
             }
         });
 
@@ -117,8 +132,53 @@ public class SetupActivity extends AppCompatActivity
         });
     }
 
+    private void display() {
 
 
+        CountryPicker countryPicker = new CountryPicker.Builder(this).setCountrySelectionListener(new RecyclerViewAdapter.OnCountryClickListener() {
+
+            @Override
+            public void onCountrySelected(Country country) {
+                CountryName.setText(country.getName());
+                Toast.makeText(SetupActivity.this, "Selected Country: " + country.getName(), Toast.LENGTH_LONG).show();
+            }
+        }).showingFlag(true).enablingSearch(true).build();
+
+        countryPicker.show(this);
+    }
+
+    private void addData() {
+        loadingBar.setTitle("Profile Image");
+        loadingBar.setMessage("Please wait, while we updating your profile image...");
+        loadingBar.show();
+        loadingBar.setCanceledOnTouchOutside(true);
+
+        StorageReference filePath = UserProfileImageRef.child(currentUserID + ".jpg");
+
+        filePath.putFile(resultUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        loadingBar.dismiss();
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isSuccessful());
+
+                        String downloadUri = uriTask.getResult().toString();
+
+                        if(uriTask.isSuccessful()){
+                            SaveAccountSetupInformation(downloadUri);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loadingBar.dismiss();
+                Toast.makeText(SetupActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    Uri resultUri;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -140,45 +200,28 @@ public class SetupActivity extends AppCompatActivity
 
             if(resultCode == RESULT_OK)
             {
-                loadingBar.setTitle("Profile Image");
-                loadingBar.setMessage("Please wait, while we updating your profile image...");
-                loadingBar.show();
-                loadingBar.setCanceledOnTouchOutside(true);
 
-                Uri resultUri = result.getUri();
 
-                StorageReference filePath = UserProfileImageRef.child(currentUserID + ".jpg");
-                filePath.putFile(resultUri)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                final Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
-                                firebaseUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        final String downloadUrl = uri.toString();
-                                        // complete the rest of your code
-                                        Intent selfIntent = new Intent(SetupActivity.this, SetupActivity.class);
-                                        startActivity(selfIntent);
 
-                                        Toast.makeText(SetupActivity.this, "Profile Image stored to Firebase Database Successfully...", Toast.LENGTH_SHORT).show();
-                                        loadingBar.dismiss();
-                                    }
-                                });
+                resultUri = result.getUri();
+                ProfileImage.setImageURI(resultUri);
 
-                            }
-                        });
+
+
                 /*filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull final Task<UploadTask.TaskSnapshot> task)
                     {
                         if(task.isSuccessful())
                         {
-                           Toast.makeText(SetupActivity.this, "Profile Image stored successfully to Firebase storage...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SetupActivity.this, "Profile Image stored successfully to Firebase storage...", Toast.LENGTH_SHORT).show();
 
                             //final String downloadUrl = task.getResult().getDownloadUrl().toString();
                             final Task<Uri> downloadUrl = Objects.requireNonNull(task.getResult()).getStorage().getDownloadUrl();
 
+                            //final String downloadUrl = task.getResult().getDownloadUrl().toString();
+
+                            Toast.makeText(SetupActivity.this, ""+downloadUrl, Toast.LENGTH_SHORT).show();
                             UsersRef.child("profileimage").setValue(downloadUrl)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -214,7 +257,7 @@ public class SetupActivity extends AppCompatActivity
 
 
 
-    private void SaveAccountSetupInformation()
+    private void SaveAccountSetupInformation(String downloadUri)
     {
         String username = UserName.getText().toString();
         String fullname = FullName.getText().toString();
@@ -232,6 +275,7 @@ public class SetupActivity extends AppCompatActivity
         {
             Toast.makeText(this, "Please write your country...", Toast.LENGTH_SHORT).show();
         }
+
         else
         {
             loadingBar.setTitle("Saving Information");
@@ -243,10 +287,11 @@ public class SetupActivity extends AppCompatActivity
             userMap.put("username", username);
             userMap.put("fullname", fullname);
             userMap.put("country", country);
-            userMap.put("status", "Hey there, i am using Poster Social Network, developed by Coding Cafe.");
+            userMap.put("img", downloadUri);
+            userMap.put("status", "Hey there, i am using BizTrends Community App, developed by Albert.");
             userMap.put("gender", "none");
             userMap.put("dob", "none");
-            userMap.put("relationshipstatus", "none");
+            userMap.put("trenderstatus", "none");
             UsersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task)
@@ -278,3 +323,5 @@ public class SetupActivity extends AppCompatActivity
         finish();
     }
 }
+
+

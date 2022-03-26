@@ -6,24 +6,29 @@
         android:icon="@drawable/home"/>
     <item
         android:id="@+id/add_new_post"
-        android:title="Add New Post"
+        android:title="Add New Market Trend"
         android:icon="@drawable/add_post"/>
     <item
         android:id="@+id/profile"
         android:title="Profile"
         android:icon="@drawable/profile_icon"/>
     <item
+        android:id="@+id/nav_news"
+        android:title="Trend News"
+        android:icon="@drawable/ic_baseline_notifications_24"/>
+
+    <!--<item
         android:id="@+id/nav_friends"
         android:title="Friends"
-        android:icon="@drawable/friends"/>
+        android:icon="@drawable/friends"/>-->
     <item
-        android:id="@+id/find_friends"
-        android:title="Friends Friends"
+        android:id="@+id/find_trenders"
+        android:title="Friends Trenders"
         android:icon="@drawable/friends"/>
-    <item
+    <!--<item
         android:id="@+id/nav_messages"
         android:title="Messages"
-        android:icon="@drawable/messages"/>
+        android:icon="@drawable/messages"/>-->
     <item
         android:id="@+id/nav_Settings"
         android:title="Settings"

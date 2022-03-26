@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "BizTrends"
 include ':app'
+include ':library'

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/purple_700"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,7 +11,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/post_border">
+        android:background="@color/mainBackgroundtwo"
+        >
+        <!--android:background="@drawable/post_border">-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +52,7 @@
                         android:id="@+id/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="has been updated a post"
+                        android:text="Updated:"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="13sp"
                         android:textStyle="bold"/>
@@ -92,6 +95,50 @@
             android:layout_margin="3dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <ImageButton
+                android:id="@+id/up_vote_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_arrow_circle_up_24"
+                />
+            <TextView
+                android:id="@+id/display_no_of_upvotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 Upvotes"
+                android:padding="15dp"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"/>
+            <!--<ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/downvote"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 Down\nvotes"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"/>-->
+
+            <ImageButton
+                android:id="@+id/comment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="150dp"
+                android:baselineAlignBottom="false"
+                android:src="@drawable/commentts_icon"
+                />
+        </LinearLayout>
 
     </LinearLayout>
 

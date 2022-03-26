@@ -2,20 +2,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.albert.biztrends">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/biztrends_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/biztrends_app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MODEL_BIZ">
+        <activity
+            android:name="com.albert.biztrends.SplashActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.albert.biztrends.NewsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.albert.biztrends.CommentsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.albert.biztrends.FindMyTrenderActivity"
+            android:exported="false"
+            android:parentActivityName="com.albert.biztrends.MainActivity" />
+        <activity
+            android:name="com.albert.biztrends.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.albert.biztrends.SettingActivity"
+            android:exported="false"
+            android:parentActivityName="com.albert.biztrends.MainActivity" />
+        <activity
+            android:name="com.albert.biztrends.ClickPostActivity"
+            android:exported="false" />
         <activity
             android:name="com.albert.biztrends.PostActivity"
             android:exported="false" />
@@ -24,13 +47,15 @@
             android:exported="false" />
         <activity
             android:name="com.albert.biztrends.LoginActivity"
-            android:exported="true">
-            <intent-filter>
+            android:exported="true"/>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>-->
+
+
         <activity
             android:name="com.albert.biztrends.RegisterActivity"
             android:exported="false" />
